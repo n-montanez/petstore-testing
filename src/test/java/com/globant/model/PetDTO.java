@@ -1,9 +1,6 @@
 package com.globant.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.net.URL;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class PetDTO {
     private long id;
     private CategoryTagDTO category;
