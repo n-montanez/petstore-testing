@@ -39,7 +39,7 @@ public class LogInTest {
         RequestBuilder.sendDelete(url, userPath + "/" + testData[0]);
     }
 
-    @Test(testName = "Log in with valid credentials", dataProviderClass = DataProviders.class, dataProvider = "userData")
+    @Test(testName = "Log in with valid credentials", priority = 1, dataProviderClass = DataProviders.class, dataProvider = "userData")
     public void ValidLogin(String username, String firstName, String lastName, String email, String password, String phone) {
         Map<String, String> loginParams = new HashMap<>();
         loginParams.put("username", username);
@@ -62,5 +62,18 @@ public class LogInTest {
         long epochTime = Long.parseLong(messageParts[1].trim()) / 1000;
         long currentEpoch = Instant.now().getEpochSecond();
         Assert.assertTrue(epochTime >= (currentEpoch - 60) && epochTime <= currentEpoch);
+    }
+
+    @Test(testName = "Log in with invalid credentials", priority = 2, dataProviderClass = DataProviders.class, dataProvider = "userData")
+    public void InvalidLogin(String username, String firstName, String lastName, String email, String password, String phone) {
+        Map<String, String> loginParams = new HashMap<>();
+        loginParams.put("username", username);
+        loginParams.put("password", password + "wrong");
+
+        // Send invalid login request
+        Response response = RequestBuilder.sendGet(url, userPath + loginPath, loginParams);
+
+        // Verify bad request status code
+        Assert.assertEquals(response.getStatusCode(), 400, "Expected 400 status code.");
     }
 }
