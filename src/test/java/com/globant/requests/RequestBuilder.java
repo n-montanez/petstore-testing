@@ -22,4 +22,12 @@ public class RequestBuilder {
                 .body(body);
         return requestSpecification.post(path);
     }
+
+    public static Response sendDelete(String url, String path) {
+        RequestSpecification requestSpecification = RestAssured
+                .given()
+                .baseUri(url)
+                .header("Content-Type", "application/json");
+        return requestSpecification.delete(path);
+    }
 }
