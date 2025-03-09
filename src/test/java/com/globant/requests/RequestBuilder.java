@@ -14,7 +14,9 @@ public class RequestBuilder {
         RequestSpecification requestSpecification = RestAssured
                 .given()
                 .baseUri(url)
-                .header("Content-Type", "application/json");
+                .header("Content-Type", "application/json")
+                .filter(new RequestLoggingFilter())
+                .filter(new ResponseLoggingFilter());
         return requestSpecification.get(path);
     }
 
@@ -34,7 +36,9 @@ public class RequestBuilder {
                 .given()
                 .baseUri(url)
                 .header("Content-Type", "application/json")
-                .body(body);
+                .body(body)
+                .filter(new RequestLoggingFilter())
+                .filter(new ResponseLoggingFilter());
         return requestSpecification.post(path);
     }
 
@@ -42,7 +46,9 @@ public class RequestBuilder {
         RequestSpecification requestSpecification = RestAssured
                 .given()
                 .baseUri(url)
-                .header("Content-Type", "application/json");
+                .header("Content-Type", "application/json")
+                .filter(new RequestLoggingFilter())
+                .filter(new ResponseLoggingFilter());
         return requestSpecification.delete(path);
     }
 }
