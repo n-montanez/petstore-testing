@@ -13,7 +13,6 @@ public class CreateUserTest {
 
     private final String url = "https://petstore.swagger.io/v2";
     private final String userPath = "/user";
-    private final String username = "DoeDoe01";
 
     @AfterMethod
     public void deleteUsers(Object[] testData) {

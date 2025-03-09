@@ -1,8 +1,12 @@
 package com.globant.requests;
 
 import io.restassured.RestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
+import java.util.Map;
 
 public class RequestBuilder {
 
@@ -11,6 +15,17 @@ public class RequestBuilder {
                 .given()
                 .baseUri(url)
                 .header("Content-Type", "application/json");
+        return requestSpecification.get(path);
+    }
+
+    public static Response sendGet(String url, String path, Map<String, String> queryParams) {
+        RequestSpecification requestSpecification = RestAssured
+                .given()
+                .baseUri(url)
+                .header("Content-Type", "application/json")
+                .queryParams(queryParams)
+                .filter(new RequestLoggingFilter())
+                .filter(new ResponseLoggingFilter());
         return requestSpecification.get(path);
     }
 
