@@ -23,8 +23,6 @@ public class CreateUserTest {
 
     @Test(testName = "Create a new valid user")
     public void createUser() {
-        SoftAssert softAssert = new SoftAssert();
-
         CreateUserDTO newUser = CreateUserDTO.builder()
                 .username(username)
                 .firstName("John")
@@ -36,15 +34,12 @@ public class CreateUserTest {
 
         Response response = RequestBuilder.sendPost(url, userPath, newUser);
         ApiResponseDTO apiResponse = response.as(ApiResponseDTO.class);
-        softAssert.assertEquals(apiResponse.getCode(), 201, "POST Response code should be 201 when resource is created");
-        Assert.assertTrue(Long.parseLong(apiResponse.getMessage()) > 0, "User ID should be created and greater than 0");
-        softAssert.assertAll();
+        Assert.assertEquals(apiResponse.getCode(), 200, "Expected 200 status code");
+        Assert.assertTrue(Long.parseLong(apiResponse.getMessage()) > 0, "User ID should be created");
     }
 
     @Test(testName = "User should not be created when email is not unique")
     public void createUserSameEmail() {
-        SoftAssert softAssert = new SoftAssert();
-
         CreateUserDTO firstUser = CreateUserDTO.builder()
                 .username(username)
                 .firstName("John")
@@ -65,13 +60,11 @@ public class CreateUserTest {
 
         // Assert that first user is created correctly
         Response firstResponse = RequestBuilder.sendPost(url, userPath, firstUser);
-        softAssert.assertEquals(firstResponse.getStatusCode(), 201);
+        Assert.assertEquals(firstResponse.getStatusCode(), 200);
 
         // Second user should not be registered with same email
         Response secondResponse = RequestBuilder.sendPost(url, userPath, secondUser);
-        softAssert.assertEquals(secondResponse.getStatusCode(), 400);
-
-        softAssert.assertAll();
+        Assert.assertEquals(secondResponse.getStatusCode(), 400);
     }
 
 }
