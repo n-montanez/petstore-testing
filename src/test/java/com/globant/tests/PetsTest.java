@@ -1,5 +1,6 @@
 package com.globant.tests;
 
+import com.globant.model.ApiResponseDTO;
 import com.globant.model.PetDTO;
 import com.globant.requests.RequestBuilder;
 import io.restassured.common.mapper.TypeRef;
@@ -7,8 +8,6 @@ import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,7 @@ public class PetsTest {
     private final String url = "https://petstore.swagger.io/v2";
     private final String petPath = "/pet";
 
-    @Test(testName = "Get all available pets", priority = 1)
+    @Test(testName = "Get all available pets")
     public void GetAllAvailablePets() {
         Map<String, String> query = new HashMap<>();
         query.put("status", "available");
@@ -35,7 +34,7 @@ public class PetsTest {
         }
     }
 
-    @Test(testName = "Get pet details by its id", priority = 2)
+    @Test(testName = "Get pet details by its id")
     public void GetSinglePet() {
         Map<String, String> query = new HashMap<>();
         query.put("status", "available");
@@ -54,5 +53,19 @@ public class PetsTest {
 
         // Assert pet data matches
         Assert.assertEquals(singlePetDTO, selectedPet);
+    }
+
+    @Test(testName = "Get pet by non-existing id")
+    public void GetNotFoundPet() {
+        long notFoundId = 999999999;
+
+        // Send GET request to single pet
+        Response singlePetResponse = RequestBuilder.sendGet(url, petPath + "/" + notFoundId);
+        ApiResponseDTO apiResponseDTO = singlePetResponse.as(ApiResponseDTO.class);
+
+        // Assert response error
+        Assert.assertEquals(singlePetResponse.getStatusCode(), 404);
+        Assert.assertEquals(apiResponseDTO.getType(), "error");
+        Assert.assertEquals(apiResponseDTO.getMessage().toLowerCase(), "pet not found");
     }
 }
