@@ -13,10 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PetDTO {
-    private int id;
+    private long id;
     private CategoryTagDTO category;
     private String name;
-    private List<URL> photoUrls;
+    private List<String> photoUrls;
     private List<CategoryTagDTO> tags;
     private String status;
 }
