@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="PetStore" verbose="1">
+
+    <test name="Authentication Tests">
+        <classes>
+            <class name="com.globant.tests.CreateUserTest"/>
+            <class name="com.globant.tests.LogInTest"/>
+            <class name="com.globant.tests.LogoutTest"/>
+        </classes>
+    </test>
+
+    <test name="Order Tests">
+        <classes>
+            <class name="com.globant.tests.OrdersTest"/>
+        </classes>
+    </test>
+
+    <test name="Pets">
+        <classes>
+            <class name="com.globant.tests.PetsTest"/>
+        </classes>
+    </test>
+
+</suite>
