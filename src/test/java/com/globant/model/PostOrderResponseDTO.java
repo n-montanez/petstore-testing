@@ -5,14 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostOrderDTO {
+public class PostOrderResponseDTO {
+    private long id;
     private long petId;
     private int quantity;
     private String shipDate;
+    private boolean complete;
 }
