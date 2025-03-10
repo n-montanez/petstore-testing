@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 public class PetsTest {
@@ -25,7 +24,7 @@ public class PetsTest {
         query.put("status", "available");
 
         Response response = RequestBuilder.sendGet(url, petPath + "/findByStatus", query);
-        List<PetDTO> pets = response.as(new TypeRef<List<PetDTO>>() {
+        List<PetDTO> pets = response.as(new TypeRef<>() {
         });
 
         Assert.assertFalse(pets.isEmpty(), "List of available pets should not be empty");

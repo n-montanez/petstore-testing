@@ -42,13 +42,12 @@ public class RequestBuilder {
         return requestSpecification.post(path);
     }
 
-    public static Response sendDelete(String url, String path) {
+    public static void sendDelete(String url, String path) {
         RequestSpecification requestSpecification = RestAssured
                 .given()
                 .baseUri(url)
                 .header("Content-Type", "application/json")
                 .filter(new RequestLoggingFilter())
                 .filter(new ResponseLoggingFilter());
-        return requestSpecification.delete(path);
     }
 }

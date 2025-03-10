@@ -2,7 +2,6 @@ package com.globant.model;
 
 import lombok.*;
 
-import java.net.URL;
 import java.util.List;
 
 @Data

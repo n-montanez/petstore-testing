@@ -18,7 +18,7 @@ public class TestUtils {
     public static PetDTO getRandomAvailablePet(String url, String path) {
         // Get all available pets
         Response response = RequestBuilder.sendGet(url, path + "/findByStatus", Map.of("status", "available"));
-        List<PetDTO> pets = response.as(new TypeRef<List<PetDTO>>() {
+        List<PetDTO> pets = response.as(new TypeRef<>() {
         });
 
         // Select a random pet from the response

@@ -6,20 +6,10 @@ import com.globant.model.PostOrderDTO;
 import com.globant.model.PostOrderResponseDTO;
 import com.globant.requests.RequestBuilder;
 import com.globant.utils.TestUtils;
-import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 public class OrdersTest {
