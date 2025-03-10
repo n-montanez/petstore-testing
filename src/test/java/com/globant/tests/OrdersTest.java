@@ -80,7 +80,7 @@ public class OrdersTest {
         int randomSelect = ThreadLocalRandom.current().nextInt(1, pets.size());
         PetDTO selectedPet = pets.get(randomSelect);
 
-        // Order date 2 days from current time
+        // Order date 2 days past from current time
         ZonedDateTime date = ZonedDateTime.now(ZoneOffset.UTC).minusDays(2);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         String shipDate = date.format(formatter);
@@ -89,6 +89,41 @@ public class OrdersTest {
         PostOrderDTO orderDTO = PostOrderDTO.builder()
                 .petId(selectedPet.getId())
                 .quantity(1)
+                .shipDate(shipDate)
+                .build();
+
+        // Send new order POST request
+        Response orderResponse = RequestBuilder.sendPost(url, storePath + orderPath, orderDTO);
+        Assert.assertEquals(orderResponse.getStatusCode(), 400);
+
+        ApiResponseDTO apiResponseDTO = orderResponse.as(ApiResponseDTO.class);
+        Assert.assertTrue(apiResponseDTO.getMessage().isEmpty());
+        Assert.assertEquals(apiResponseDTO.getMessage().toLowerCase(), "invalid order");
+    }
+
+    @Test(testName = "Order is not created when quantity is negative")
+    public void InvalidQuantityOrder() {
+        Map<String, String> query = new HashMap<>();
+        query.put("status", "available");
+
+        // Get all available pets
+        Response response = RequestBuilder.sendGet(url, petPath + "/findByStatus", query);
+        List<PetDTO> pets = response.as(new TypeRef<List<PetDTO>>() {
+        });
+
+        // Select a random pet from the response
+        int randomSelect = ThreadLocalRandom.current().nextInt(1, pets.size());
+        PetDTO selectedPet = pets.get(randomSelect);
+
+        // Order date 2 days from current time
+        ZonedDateTime date = ZonedDateTime.now(ZoneOffset.UTC).plusDays(2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String shipDate = date.format(formatter);
+
+        // Create order request for selected pet with negative quantity
+        PostOrderDTO orderDTO = PostOrderDTO.builder()
+                .petId(selectedPet.getId())
+                .quantity(-3)
                 .shipDate(shipDate)
                 .build();
 
