@@ -18,6 +18,9 @@ public class PetsTest {
     private final String url = "https://petstore.swagger.io/v2";
     private final String petPath = "/pet";
 
+    /**
+     * Test for listing all pets with state as available
+     */
     @Test(testName = "Get all available pets")
     public void GetAllAvailablePets() {
         Map<String, String> query = new HashMap<>();
@@ -34,6 +37,9 @@ public class PetsTest {
         }
     }
 
+    /**
+     * Test for getting the details of a single pet
+     */
     @Test(testName = "Get pet details by its id")
     public void GetSinglePet() {
         PetDTO selectedPet = TestUtils.getRandomAvailablePet(url, petPath);
@@ -46,6 +52,9 @@ public class PetsTest {
         Assert.assertEquals(singlePetDTO, selectedPet);
     }
 
+    /**
+     * Test for requesting a non-existing pet
+     */
     @Test(testName = "Get pet by non-existing id")
     public void GetNotFoundPet() {
         long notFoundId = 999999999;

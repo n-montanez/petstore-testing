@@ -13,6 +13,9 @@ public class LogoutTest {
     private final String userPath = "/user";
     private final String logoutPath = "/logout";
 
+    /**
+     * Test for logging out from system
+     */
     @Test(testName = "Log out", priority = 3)
     public void LogoutUser() {
         Response response = RequestBuilder.sendGet(url, userPath + logoutPath);

@@ -14,12 +14,27 @@ public class CreateUserTest {
     private final String url = "https://petstore.swagger.io/v2";
     private final String userPath = "/user";
 
+    /**
+     * Cleans the registered users after each test
+     *
+     * @param testData Data objects provided by DataProvider
+     */
     @AfterMethod
     public void deleteUsers(Object[] testData) {
         RequestBuilder.sendDelete(url, userPath + "/" + testData[0]);
         RequestBuilder.sendDelete(url, userPath + "/" + testData[0] + "_copy");
     }
 
+    /**
+     * Tests the creation of a valid user data.
+     *
+     * @param username  username
+     * @param firstName user's first name
+     * @param lastName  user's last name
+     * @param email     user's email
+     * @param password  user's password
+     * @param phone     user's phone
+     */
     @Test(testName = "Create a new valid user", dataProviderClass = DataProviders.class, dataProvider = "userData")
     public void createUser(String username, String firstName, String lastName, String email, String password, String phone) {
         CreateUserDTO newUser = new CreateUserDTO(
@@ -38,6 +53,16 @@ public class CreateUserTest {
         Assert.assertTrue(Long.parseLong(apiResponse.getMessage()) > 0, "User ID should be created");
     }
 
+    /**
+     * Test for email uniqueness
+     *
+     * @param username  username
+     * @param firstName user's first name
+     * @param lastName  user's last name
+     * @param email     user's email
+     * @param password  user's password
+     * @param phone     user's phone
+     */
     @Test(testName = "User should not be created when email is not unique", dataProviderClass = DataProviders.class, dataProvider = "userData")
     public void createUserSameEmail(String username, String firstName, String lastName, String email, String password, String phone) {
         // First base user

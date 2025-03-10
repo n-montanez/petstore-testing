@@ -3,6 +3,11 @@ package com.globant.data;
 import org.testng.annotations.DataProvider;
 
 public class DataProviders {
+    /**
+     * Provides data for user creation
+     *
+     * @return Array of CreateUserDTOs
+     */
     @DataProvider(name = "userData")
     public Object[][] userData() {
         return new Object[][]{

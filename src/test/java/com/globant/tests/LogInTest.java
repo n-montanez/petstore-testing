@@ -19,6 +19,11 @@ public class LogInTest {
     private final String userPath = "/user";
     private final String loginPath = "/login";
 
+    /**
+     * Register a user before each test
+     *
+     * @param user User data given by DataProvider before each test
+     */
     @BeforeMethod
     public void registerUser(Object[] user) {
         CreateUserDTO newUser = new CreateUserDTO(
@@ -33,11 +38,26 @@ public class LogInTest {
         RequestBuilder.sendPost(url, userPath, newUser);
     }
 
+    /**
+     * Cleans the registered users after each test
+     *
+     * @param testData Data objects provided by DataProvider
+     */
     @AfterMethod
     public void deleteUser(Object[] testData) {
         RequestBuilder.sendDelete(url, userPath + "/" + testData[0]);
     }
 
+    /**
+     * Test for login with expected valid username and password
+     *
+     * @param username  username
+     * @param firstName user's first name
+     * @param lastName  user's last name
+     * @param email     user's email
+     * @param password  user's password
+     * @param phone     user's phone
+     */
     @Test(testName = "Log in with valid credentials", priority = 1, dataProviderClass = DataProviders.class, dataProvider = "userData")
     public void ValidLogin(String username, String firstName, String lastName, String email, String password, String phone) {
         Map<String, String> loginParams = new HashMap<>();
@@ -63,6 +83,16 @@ public class LogInTest {
         Assert.assertTrue(epochTime >= (currentEpoch - 60) && epochTime <= currentEpoch);
     }
 
+    /**
+     * Test for login with wrong password
+     *
+     * @param username  username
+     * @param firstName user's first name
+     * @param lastName  user's last name
+     * @param email     user's email
+     * @param password  user's password
+     * @param phone     user's phone
+     */
     @Test(testName = "Log in with invalid credentials", priority = 2, dataProviderClass = DataProviders.class, dataProvider = "userData")
     public void InvalidLogin(String username, String firstName, String lastName, String email, String password, String phone) {
         Map<String, String> loginParams = new HashMap<>();

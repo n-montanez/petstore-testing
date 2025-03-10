@@ -18,6 +18,9 @@ public class OrdersTest {
     private final String storePath = "/store";
     private final String orderPath = "/order";
 
+    /**
+     * Test for sending a new valid order request
+     */
     @Test(testName = "Order is created when request is valid")
     public void ValidOrder() {
         PetDTO selectedPet = TestUtils.getRandomAvailablePet(url, petPath);
@@ -42,6 +45,9 @@ public class OrdersTest {
         Assert.assertEquals(orderResponseDTO.getShipDate(), orderDTO.getShipDate());
     }
 
+    /**
+     * Test for sending a new order request with a date before current time
+     */
     @Test(testName = "Order is not created when ship date is before current date")
     public void InvalidDateOrder() {
         PetDTO selectedPet = TestUtils.getRandomAvailablePet(url, petPath);
@@ -62,6 +68,9 @@ public class OrdersTest {
         Assert.assertEquals(apiResponseDTO.getMessage().toLowerCase(), "invalid order");
     }
 
+    /**
+     * Test for sending a new order with pet quantity as negative
+     */
     @Test(testName = "Order is not created when quantity is negative")
     public void InvalidQuantityOrder() {
         PetDTO selectedPet = TestUtils.getRandomAvailablePet(url, petPath);

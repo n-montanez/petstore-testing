@@ -15,6 +15,12 @@ public class TestUtils {
     private static final String format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 
+    /**
+     *
+     * @param url Base URL for the request
+     * @param path Endpoint path
+     * @return List of Pets with available status
+     */
     public static PetDTO getRandomAvailablePet(String url, String path) {
         // Get all available pets
         Response response = RequestBuilder.sendGet(url, path + "/findByStatus", Map.of("status", "available"));
@@ -26,6 +32,12 @@ public class TestUtils {
         return pets.get(randomSelect);
     }
 
+    /**
+     * Creates a String with the date from the given day offset
+     *
+     * @param daysFrom Date offset from current time
+     * @return String with formatted date
+     */
     public static String getFormattedDateFromDays(int daysFrom) {
         return ZonedDateTime.now(ZoneOffset.UTC)
                 .plusDays(daysFrom)
