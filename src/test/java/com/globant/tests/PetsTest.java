@@ -3,6 +3,7 @@ package com.globant.tests;
 import com.globant.model.ApiResponseDTO;
 import com.globant.model.PetDTO;
 import com.globant.requests.RequestBuilder;
+import com.globant.utils.TestUtils;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -36,16 +37,7 @@ public class PetsTest {
 
     @Test(testName = "Get pet details by its id")
     public void GetSinglePet() {
-        Map<String, String> query = new HashMap<>();
-        query.put("status", "available");
-
-        Response petResponse = RequestBuilder.sendGet(url, petPath + "/findByStatus", query);
-        List<PetDTO> pets = petResponse.as(new TypeRef<List<PetDTO>>() {
-        });
-
-        // Select a random pet from the response
-        int randomSelect = ThreadLocalRandom.current().nextInt(1, pets.size() + 1);
-        PetDTO selectedPet = pets.get(randomSelect);
+        PetDTO selectedPet = TestUtils.getRandomAvailablePet(url, petPath);
 
         // Send GET request to single pet
         Response singlePetResponse = RequestBuilder.sendGet(url, petPath + "/" + selectedPet.getId());
